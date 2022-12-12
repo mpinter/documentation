@@ -118,6 +118,8 @@ async function up(trx) {
 
       // Delete repeated rows from the original table
       await trx.raw(`DELETE FROM ?? WHERE id in (SELECT * FROM tmp)`, [table.name]);
+    } catch (error) {
+      strapi.log.error(error)
     } finally {
       // Drop temporary table
       await trx.raw(`DROP TABLE IF EXISTS tmp `);
